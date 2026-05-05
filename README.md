@@ -15,3 +15,7 @@ Este é o meu portfolio pessoal, desenvolvido para apresentar meus projetos e tr
 - [x] **Efeito Typewriter**: Animação personalizada na seção Hero.
 - [x] **Ícones Flutuantes**: Background dinâmico com ícones da Tech Stack.
 
+## 📦 Como rodar o projeto localmente
+1. Clone este repositório:
+   ```bash
+   git clone [https://github.com/btechsolution/portfolio-cleverson](https://github.com/btechsolution/portfolio-cleverson)
