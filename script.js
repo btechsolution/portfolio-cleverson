@@ -1,12 +1,34 @@
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Alternador de Tema
   const themeBtn = document.getElementById("theme-toggle");
+  const icon = themeBtn?.querySelector("i");
+
+  // Função para aplicar o tema, trocar ícone e salvar preferência
+  const applyTheme = (theme) => {
+    if (theme === "light") {
+      document.body.classList.add("light-mode");
+      icon?.classList.replace("fa-moon", "fa-sun");
+    } else {
+      document.body.classList.remove("light-mode");
+      icon?.classList.replace("fa-sun", "fa-moon");
+    }
+    localStorage.setItem("theme", theme);
+  };
+
+  // Lógica de Inicialização: LocalStorage ou Preferência do Dispositivo
+  const savedTheme = localStorage.getItem("theme");
+  const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+
+  if (savedTheme) {
+    applyTheme(savedTheme);
+  } else if (prefersLight) {
+    applyTheme("light");
+  }
+
   if (themeBtn) {
     themeBtn.addEventListener("click", () => {
-      document.body.classList.toggle("light-mode");
-      const icon = themeBtn.querySelector("i");
-      icon.classList.toggle("fa-sun");
-      icon.classList.toggle("fa-moon");
+      const isLight = document.body.classList.contains("light-mode");
+      applyTheme(isLight ? "dark" : "light");
     });
   }
 
@@ -28,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let isDeleting = false;
 
   function type() {
+    if (!typewriterElement) return;
     const currentText = textToType.substring(0, charIndex);
     typewriterElement.textContent = currentText;
 
@@ -47,6 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 4. Ícones Flutuantes de Tech Stack
   function initFloatingIcons() {
     const hero = document.getElementById("home");
+    if (!hero) return;
+    
     const container = document.createElement("div");
     container.className = "floating-icons-container";
     hero.appendChild(container);
@@ -57,25 +82,24 @@ document.addEventListener("DOMContentLoaded", () => {
       "fa-html5",
       "fa-css3-alt",
       "fa-docker",
-      "fa-database", // Database para representar Postgres
+      "fa-database",
     ];
 
     function createIcon() {
-      const icon = document.createElement("i");
-      const randomClass =
-        iconClasses[Math.floor(Math.random() * iconClasses.length)];
+      const iconEl = document.createElement("i");
+      const randomClass = iconClasses[Math.floor(Math.random() * iconClasses.length)];
 
-      icon.className = `fab ${randomClass} floating-icon`;
-      icon.style.left = Math.random() * 100 + "vw";
+      iconEl.className = `fab ${randomClass} floating-icon`;
+      iconEl.style.left = Math.random() * 100 + "vw";
 
       const duration = Math.random() * 12 + 8;
-      icon.style.animationDuration = duration + "s";
-      icon.style.fontSize = Math.random() * 1.5 + 1.5 + "rem";
+      iconEl.style.animationDuration = duration + "s";
+      iconEl.style.fontSize = Math.random() * 1.5 + 1.5 + "rem";
 
-      container.appendChild(icon);
+      container.appendChild(iconEl);
 
       setTimeout(() => {
-        icon.remove();
+        iconEl.remove();
       }, duration * 1000);
     }
 
